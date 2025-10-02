@@ -106,7 +106,7 @@
                 android:text="@string/btn9" />
 
             <Button
-                android:id="@+id/btn_mult"
+                android:id="@+id/btn_multiply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -142,7 +142,7 @@
                 android:text="@string/btn_dot" />
 
             <Button
-                android:id="@+id/btn_div"
+                android:id="@+id/btn_divide"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"

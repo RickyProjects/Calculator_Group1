@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9;
-    Button btn_plus, btn_minus, btn_mult, btn_div, btn_clear, btn_dot, btn_equal;
+    Button btn_plus, btn_minus, btn_multiply, btn_divide, btn_clear, btn_dot, btn_equal;
     TextView text_display;
 
     // This is to evaluate the math expression
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        btn0 = (Button) findViewById(R.id.btn0);
         btn1 = (Button) findViewById(R.id.btn1);
         btn2 = (Button) findViewById(R.id.btn2);
         btn3 = (Button) findViewById(R.id.btn3);
@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btn_plus = (Button) findViewById(R.id.btn_plus);
         btn_minus = (Button) findViewById(R.id.btn_minus);
-        btn_mult = (Button) findViewById(R.id.btn_mult);
-        btn_div = (Button) findViewById(R.id.btn_div);
+        btn_multiply = (Button) findViewById(R.id.btn_multiply);
+        btn_divide = (Button) findViewById(R.id.btn_divide);
         btn_equal = (Button) findViewById(R.id.btn_equal);
         btn_clear = (Button) findViewById(R.id.btn_clear);
         btn_dot = (Button) findViewById(R.id.btn_dot);
@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btn_plus.setOnClickListener(this);
         btn_minus.setOnClickListener(this);
-        btn_mult.setOnClickListener(this);
-        btn_div.setOnClickListener(this);
+        btn_multiply.setOnClickListener(this);
+        btn_divide.setOnClickListener(this);
         btn_dot.setOnClickListener(this);
         btn_equal.setOnClickListener(this);
         btn_clear.setOnClickListener(this);
@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn0:
+                addNumber("0");
+                break;
             case R.id.btn1:
                 addNumber("1");
                 break;
@@ -106,16 +109,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_minus:
                 addNumber("-");
                 break;
-            case R.id.btn_mult:
+            case R.id.btn_multiply:
                 addNumber("x");
                 break;
-            case R.id.btn_div:
+            case R.id.btn_divide:
                 addNumber("/");
                 break;
             case R.id.btn_dot:
                 addNumber(".");
                 break;
             case R.id.btn_equal:
+                addNumber("=");
+                break;
+            /*case R.id.btn_equal:
                 String result = null;
                 try {
                     result = evaluate(text_display.getText().toString());
@@ -123,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (Exception e) {
                     text_display.setText("Error");
                 }
-                break;
+                break; */
             case R.id.btn_clear:
                 clear_display();
                 break;
