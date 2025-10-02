@@ -18,6 +18,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_plus, btn_minus, btn_multiply, btn_divide, btn_clear, btn_dot, btn_equal;
     TextView text_display;
 
+    double val1, val2;
+
+    boolean add, sub, mul, div;
+
     // This is to evaluate the math expression
 
     @Override
@@ -118,10 +122,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_dot:
                 addNumber(".");
                 break;
-            case R.id.btn_equal:
-                addNumber("=");
-                break;
             /*case R.id.btn_equal:
+                addNumber("=");
+                break;*/
+            case R.id.btn_equal:
                 String result = null;
                 try {
                     result = evaluate(text_display.getText().toString());
@@ -129,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (Exception e) {
                     text_display.setText("Error");
                 }
-                break; */
+                break;
             case R.id.btn_clear:
                 clear_display();
                 break;
@@ -137,9 +141,80 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private String evaluate(String expression) throws Exception {
-        String result = evaluate(expression);
+        String result = "";
+        char tempVal;
+        boolean operate = false;
+        String tempVal1 = "";
+        String tempVal2 = "";
+        for (int i = 0; i<expression.length(); i++){
+            tempVal = expression.charAt(i);
+            if(!operate){
+                if (tempVal == '+'){
+                    add = true;
+                    operate = true;
+                } else if (tempVal == '-'){
+                    if (tempVal1 == ""){
+                       tempVal1 += "-";
+                    }else{
+                        sub = true;
+                        operate = true;
+                    }
+                } else if (tempVal == 'x'){
+                    mul = true;
+                    operate = true;
+                } else if (tempVal == '/'){
+                    div = true;
+                    operate = true;
+                } else {
+                    tempVal1 += tempVal;
+                }
+            }else {
+                tempVal2 += tempVal;
+            }
+
+        }
+        val1 = Double.parseDouble(tempVal1);
+        val2 = Double.parseDouble(tempVal2);
+        double rawResult;
+        double tempResult;
+        if (add) {
+            rawResult = add(val1, val2);
+        } else if (sub){
+            rawResult = sub(val1, val2);
+        } else if (mul){
+            rawResult = mul(val1, val2);
+        } else if (div){
+            rawResult = div(val1, val2);
+        }
+
+        operate = false;
+        add = false;
+        sub = false;
+        mul = false;
+        div = false;
+
+        if (rawResult % 1 == 0){
+            int result2 = Double.parseDouble(result);
+            return Integer.toString(result2);
+        }
         BigDecimal decimal = new BigDecimal(result);
         return decimal.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString();
+    }
+
+    private double add(double val1, double val2){
+        return val1 + val2;
+    }
+
+    private double sub(double val1, double val2){
+        return val1 - val2;
+    }
+
+    private double mul(double val1, double val2){
+        return val1 * val2;
+    }
+
+    private double div(double val1, double val2){
+        return val1 / val2;
     }
 
     private void addNumber(String number) {
