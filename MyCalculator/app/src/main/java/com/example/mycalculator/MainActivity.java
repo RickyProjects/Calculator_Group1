@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView text_display;
 
     double val1, val2;
-
+    double rawResult;
     boolean add, sub, mul, div;
 
     // This is to evaluate the math expression
@@ -146,45 +146,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean operate = false;
         String tempVal1 = "";
         String tempVal2 = "";
-        for (int i = 0; i<expression.length(); i++){
+        for (int i = 0; i < expression.length(); i++) {
             tempVal = expression.charAt(i);
-            if(!operate){
-                if (tempVal == '+'){
+            if (!operate) {
+                if (tempVal == '+') {
                     add = true;
                     operate = true;
-                } else if (tempVal == '-'){
-                    if (tempVal1 == ""){
-                       tempVal1 += "-";
-                    }else{
+                } else if (tempVal == '-') {
+                    if (tempVal1 == "") {
+                        tempVal1 += "-";
+                    } else {
                         sub = true;
                         operate = true;
                     }
-                } else if (tempVal == 'x'){
+                } else if (tempVal == 'x') {
                     mul = true;
                     operate = true;
-                } else if (tempVal == '/'){
+                } else if (tempVal == '/') {
                     div = true;
                     operate = true;
                 } else {
                     tempVal1 += tempVal;
                 }
-            }else {
+            } else {
                 tempVal2 += tempVal;
             }
 
         }
         val1 = Double.parseDouble(tempVal1);
-        val2 = Double.parseDouble(tempVal2);
-        double rawResult;
+
         double tempResult;
-        if (add) {
-            rawResult = add(val1, val2);
-        } else if (sub){
-            rawResult = sub(val1, val2);
-        } else if (mul){
-            rawResult = mul(val1, val2);
-        } else if (div){
-            rawResult = div(val1, val2);
+
+        if (!operate) {
+            rawResult = val1;
+        } else {
+            val2 = Double.parseDouble(tempVal2);
+            if (add) {
+                rawResult = add(val1, val2);
+            } else if (sub) {
+                rawResult = sub(val1, val2);
+            } else if (mul) {
+                rawResult = mul(val1, val2);
+            } else if (div) {
+                rawResult = div(val1, val2);
+            }
         }
 
         operate = false;
@@ -193,27 +198,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mul = false;
         div = false;
 
-        if (rawResult % 1 == 0){
-            int result2 = Double.parseDouble(result);
-            return Integer.toString(result2);
+        if (rawResult == (long) rawResult) {
+            return String.valueOf((long) rawResult);
+        } else {
+            // Round to 2 decimals only if needed
+            BigDecimal decimal = new BigDecimal(rawResult);
+            return decimal.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString();
         }
-        BigDecimal decimal = new BigDecimal(result);
-        return decimal.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString();
     }
 
     private double add(double val1, double val2){
         return val1 + val2;
     }
-
     private double sub(double val1, double val2){
         return val1 - val2;
     }
-
     private double mul(double val1, double val2){
         return val1 * val2;
     }
-
-    private double div(double val1, double val2){
+    private double div(double val1, double val2) {
         return val1 / val2;
     }
 
